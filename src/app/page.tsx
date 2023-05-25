@@ -1,8 +1,34 @@
-export default function Home() {
+import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
+
+async function getData() {
+  const { rows } =
+    await sql`SELECT id, title, completed FROM todos WHERE completed = ${0} ORDER BY id ASC`;
+
+  return rows.map((r) => ({
+    id: r.id as number,
+    title: r.title as string,
+    completed: r.completed === "1",
+  }));
+}
+
+export default async function Home() {
+  const data = await getData();
+
   return (
     <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="py-4 text-center text-3xl">TO DO&apos;S</h1>
       <AddForm />
+      <hr className="my-4" />
+      <div className="px-8">
+        <ul className="list-disc">
+          {data.map((item) => (
+            <li key={item.id} className="p-2">
+              {item.title}
+            </li>
+          ))}
+        </ul>
+      </div>
     </main>
   );
 }
@@ -10,8 +36,9 @@ export default function Home() {
 function AddForm() {
   async function addItem(formData: FormData) {
     "use server";
-    const newTodo = formData.get("todo");
-    console.log({ newTodo });
+    const newTodo = formData.get("todo")?.toString();
+    await sql`INSERT INTO todos (title, completed) VALUES (${newTodo}, '0')`;
+    revalidatePath("/");
   }
 
   return (
