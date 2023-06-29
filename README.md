@@ -18,18 +18,16 @@ Check this file out for the main guts:
 src/app/page.tsx
 ```
 
-This function sets up the main page layout:
+This function sets up the main page layout (DisplayTodos grabs the data itself):
 
 ```javascript
 async function Home() {
-  const data = await getData();
-
   return (
     <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="py-4 text-center text-3xl">TO DO&apos;S</h1>
       <AddForm />
       <hr className="my-4" />
-      <DisplayTodos data={data} />
+      <DisplayTodos />
     </main>
   );
 }
