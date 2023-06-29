@@ -7,29 +7,13 @@ type Todo = {
   completed: boolean;
 };
 
-async function getData() {
-  const { rows } =
-    await sql`SELECT id, title, completed FROM todos WHERE completed = ${0} ORDER BY id ASC`;
-
-  return rows.map(
-    (r) =>
-      ({
-        id: r.id as number,
-        title: r.title as string,
-        completed: r.completed === "1",
-      } as Todo)
-  );
-}
-
-export default async function Home() {
-  const data = await getData();
-
+export default function Home() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="py-4 text-center text-3xl">TO DO&apos;S</h1>
       <AddForm />
       <hr className="my-4" />
-      <DisplayTodos data={data} />
+      <DisplayTodos />
     </main>
   );
 }
@@ -69,7 +53,23 @@ function AddForm() {
   );
 }
 
-function DisplayTodos({ data }: { data: Todo[] }) {
+async function getData() {
+  const { rows } =
+    await sql`SELECT id, title, completed FROM todos WHERE completed = ${0} ORDER BY id ASC`;
+
+  return rows.map(
+    (r) =>
+      ({
+        id: r.id as number,
+        title: r.title as string,
+        completed: r.completed === "1",
+      } as Todo)
+  );
+}
+
+async function DisplayTodos() {
+  const data = await getData();
+
   return (
     <div className="px-1">
       <ul>
