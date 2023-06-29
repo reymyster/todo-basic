@@ -18,10 +18,9 @@ Check this file out for the main guts:
 src/app/page.tsx
 ```
 
-This function sets up the main page layout (DisplayTodos grabs the data itself):
-
+This function sets up the main page layout:
 ```javascript
-async function Home() {
+function Home() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="py-4 text-center text-3xl">TO DO&apos;S</h1>
@@ -29,6 +28,23 @@ async function Home() {
       <hr className="my-4" />
       <DisplayTodos />
     </main>
+  );
+}
+```
+
+DisplayTodos grabs its own data for display:
+```javascript
+async function DisplayTodos() {
+  const data = await getData();
+
+  return (
+    <div className="px-1">
+      <ul>
+        {data.map((item, index) => (
+          <DisplayTodo key={item.id} index={index} item={item} />
+        ))}
+      </ul>
+    </div>
   );
 }
 ```
