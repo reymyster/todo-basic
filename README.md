@@ -1,4 +1,4 @@
-This is a basic To-Do List [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a basic To-Do List [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). For a more advanced project, check [here](https://github.com/reymyster/todo-advanced).
 
 ## View Working Demo
 
